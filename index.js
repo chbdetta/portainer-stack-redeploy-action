@@ -2,6 +2,7 @@ const core = require("@actions/core")
 
 let portainerUrl = core.getInput("portainerUrl")
 const accessToken = core.getInput("accessToken")
+const customHeaders = JSON.parse(core.getInput("headers"))
 const stackId = parseInt(core.getInput("stackId"))
 const endpointId = parseInt(core.getInput("endpointId"))
 
@@ -31,6 +32,7 @@ core.setSecret(accessToken)
 
 client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
   headers: {
+    ...customHeaders,
     "X-API-Key": accessToken
   }
 }, (res) => {
@@ -66,6 +68,7 @@ client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
     const req = client.request(`${portainerUrl}/api/stacks/${stackId}` + (isNaN(endpointId) ? "" : `?endpointId=${endpointId}`), {
       method: "PUT",
       headers: {
+        ...customHeaders,
         "X-API-Key": accessToken,
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(postData)
