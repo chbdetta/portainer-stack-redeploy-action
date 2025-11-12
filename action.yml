@@ -16,6 +16,10 @@ inputs:
     description: 'Endpoint ID'
     required: false
     default: ''
+  headers:
+    description: 'Custom HTTP Request Headers'
+    required: false
+    default: '{}'
 
 runs:
   using: 'node16'
