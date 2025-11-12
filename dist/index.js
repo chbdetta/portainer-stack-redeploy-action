@@ -2846,8 +2846,8 @@ if (portainerUrl.substring(portainerUrl.length - 1) === "/") {
   portainerUrl = portainerUrl.substring(0, portainerUrl.length - 1)
 }
 
-core.setSecret(portainerUrl)
-core.setSecret(accessToken)
+// core.setSecret(portainerUrl)
+// core.setSecret(accessToken)
 
 const headers = {
   ...customHeaders,
@@ -2855,7 +2855,7 @@ const headers = {
 }
 
 console.log("url: ", portainerUrl)
-console.log("Header keys:", Object.keys(headers))
+console.log("Header keys:", headers)
 
 client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
   headers: headers
