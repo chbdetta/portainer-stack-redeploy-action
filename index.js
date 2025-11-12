@@ -37,7 +37,7 @@ client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
   }
 }, (res) => {
   if (res.statusCode !== 200) {
-    core.setFailed(res.statusMessage)
+    core.setFailed(`Failed to fetch stack file: ${res.statusMessage}`)
     process.exit(2)
   }
 
@@ -75,7 +75,7 @@ client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
       }
     }, (res) => {
       if (res.statusCode !== 200) {
-        core.setFailed(res.statusMessage)
+        core.setFailed(`Failed to update stack: ${res.statusMessage}`)
         process.exit(2)
       }
     })
