@@ -2846,8 +2846,12 @@ if (portainerUrl.substring(portainerUrl.length - 1) === "/") {
   portainerUrl = portainerUrl.substring(0, portainerUrl.length - 1)
 }
 
-// core.setSecret(portainerUrl)
-// core.setSecret(accessToken)
+core.setSecret(portainerUrl)
+core.setSecret(accessToken)
+
+for (const value of Object.values(customHeaders)) {
+  core.setSecret(value)
+}
 
 const headers = {
   ...customHeaders,
