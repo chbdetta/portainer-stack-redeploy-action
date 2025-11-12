@@ -30,14 +30,19 @@ if (portainerUrl.substring(portainerUrl.length - 1) === "/") {
 core.setSecret(portainerUrl)
 core.setSecret(accessToken)
 
+const headers = {
+  ...customHeaders,
+  "X-API-Key": accessToken
+}
+
+console.log("url: ", portainerUrl)
+console.log("Header keys:", Object.keys(headers))
+
 client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
-  headers: {
-    ...customHeaders,
-    "X-API-Key": accessToken
-  }
+  headers: headers
 }, (res) => {
   if (res.statusCode !== 200) {
-    core.setFailed(`Failed to fetch stack file: ${res.statusMessage}`)
+    core.setFailed(`Failed to fetch stack file: ${res.statusMessage}. Code: ${res.statusCode}`)
     process.exit(2)
   }
 
@@ -68,14 +73,13 @@ client.get(`${portainerUrl}/api/stacks/${stackId}/file`, {
     const req = client.request(`${portainerUrl}/api/stacks/${stackId}` + (isNaN(endpointId) ? "" : `?endpointId=${endpointId}`), {
       method: "PUT",
       headers: {
-        ...customHeaders,
-        "X-API-Key": accessToken,
+        ...headers,
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(postData)
       }
     }, (res) => {
       if (res.statusCode !== 200) {
-        core.setFailed(`Failed to update stack: ${res.statusMessage}`)
+        core.setFailed(`Failed to update stack: ${res.statusMessage}. Code: ${res.statusCode}`)
         process.exit(2)
       }
     })
